@@ -1,0 +1,52 @@
+using UnityEngine;
+using TMPro;
+
+public class LungsAnimationController : MonoBehaviour
+{
+    public Animator lungsAnimator; 
+    public TMP_Text respiratoryRateText; 
+
+    private float targetRespiratoryRate; 
+    private float currentRespiratoryRate; 
+    private Vector3 initialPosition; 
+    private Quaternion initialRotation; 
+    private Vector3 initialScale; 
+
+    public float smoothTime = 0.3f; 
+    private float velocity = 0.0f; 
+
+    void Start()
+    {
+        
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
+        initialScale = transform.localScale;
+    }
+
+    void Update()
+    {
+        
+        if (float.TryParse(respiratoryRateText.text, out targetRespiratoryRate))
+        {
+            
+           
+            
+            currentRespiratoryRate = Mathf.SmoothDamp(currentRespiratoryRate, targetRespiratoryRate, ref velocity, smoothTime);
+
+            
+            lungsAnimator.SetFloat("RespiratoryRate", currentRespiratoryRate);
+
+            
+            
+        }
+        
+    }
+
+    void LateUpdate()
+    {
+        
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+        transform.localScale = initialScale;
+    }
+}
